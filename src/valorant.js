@@ -20,7 +20,7 @@ class Valorant {
         this.client_version = 'release-01.14-shipping-32-502227';
     }
 
-    getPlayerDataDomain(region) {
+    getPlayerDataServiceUrl(region) {
         return `https://pd.${region}.a.pvp.net`;
     }
 
@@ -28,7 +28,7 @@ class Valorant {
         return `https://glz-${region}-1.${region}.a.pvp.net`;
     }
 
-    getSharedDataDomain(region) {
+    getSharedDataServiceUrl(region) {
         return `https://shared.${region}.a.pvp.net`;
     }
 
@@ -87,7 +87,7 @@ class Valorant {
     }
 
     getContent() {
-        return axios.get(this.getSharedDataDomain(this.region) + '/content-service/v2/content', {
+        return axios.get(this.getSharedDataServiceUrl(this.region) + '/content-service/v2/content', {
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -107,7 +107,7 @@ class Valorant {
     }
 
     getPlayerMMR(id) {
-        return axios.get(this.getPlayerDataDomain(this.region) + `/mmr/v1/players/${id}`,{
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${id}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -117,7 +117,7 @@ class Valorant {
     }
 
     getPlayers(ids) {
-        return axios.put(this.getPlayerDataDomain(this.region) + '/name-service/v2/players', ids,{
+        return axios.put(this.getPlayerDataServiceUrl(this.region) + '/name-service/v2/players', ids,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
