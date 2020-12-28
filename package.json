@@ -1,0 +1,24 @@
+{
+  "name": "valorant-api-nodejs",
+  "version": "0.0.1",
+  "description": "Unofficial NodeJS library for the VALORANT Private APIs",
+  "main": "valorant.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liamcottle/valorant-api-nodejs.git"
+  },
+  "keywords": [
+    "valorant",
+    "api"
+  ],
+  "author": "Liam Cottle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liamcottle/valorant-api-nodejs/issues"
+  },
+  "homepage": "https://github.com/liamcottle/valorant-api-nodejs#readme",
+  "dependencies": {}
+}
