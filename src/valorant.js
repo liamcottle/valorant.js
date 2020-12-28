@@ -6,14 +6,21 @@ const querystring = require('querystring');
 const tough = require('tough-cookie');
 const url = require('url');
 
+const regions = require('./regions');
+
 axiosCookieJarSupport(axios);
 
 class Valorant {
 
-    constructor() {
+    constructor(region = regions.AsiaPacific) {
+        this.region = region;
         this.username = null;
         this.access_token = null;
         this.entitlements_token = null;
+    }
+
+    getPlayerDataDomain(region) {
+        return `https://pd.${region}.a.pvp.net`;
     }
 
     authorize(username, password) {
@@ -67,6 +74,15 @@ class Valorant {
                 this.access_token = access_token;
                 this.entitlements_token = response.data.entitlements_token;
             });
+        });
+    }
+
+    getPlayers(ids) {
+        return axios.put(this.getPlayerDataDomain(this.region) + '/name-service/v2/players', ids,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
         });
     }
 

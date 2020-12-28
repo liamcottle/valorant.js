@@ -2,7 +2,7 @@
   "name": "valorant-api-nodejs",
   "version": "0.0.1",
   "description": "Unofficial NodeJS library for the VALORANT Private APIs",
-  "main": "valorant.js",
+  "main": "src/valorant.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
