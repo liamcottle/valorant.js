@@ -20,5 +20,11 @@
     "url": "https://github.com/liamcottle/valorant-api-nodejs/issues"
   },
   "homepage": "https://github.com/liamcottle/valorant-api-nodejs#readme",
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^0.21.1",
+    "axios-cookiejar-support": "^1.0.1",
+    "querystring": "^0.2.0",
+    "tough-cookie": "^4.0.0",
+    "url": "^0.11.0"
+  }
 }
