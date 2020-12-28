@@ -134,6 +134,15 @@ class Valorant {
         });
     }
 
+    getPlayerCompetitiveHistory(id, startIndex = 0, endIndex = 10) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${id}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
     getPlayerWallet(id) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/wallet/${id}`,{
             headers: {
