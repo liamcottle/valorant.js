@@ -92,6 +92,16 @@ class Valorant {
         });
     }
 
+    getPlayerMMR(id) {
+        return axios.get(this.getPlayerDataDomain(this.region) + `/mmr/v1/players/${id}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+                'X-Riot-ClientVersion': this.client_version,
+            },
+        });
+    }
+
     getPlayers(ids) {
         return axios.put(this.getPlayerDataDomain(this.region) + '/name-service/v2/players', ids,{
             headers: {
