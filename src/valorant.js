@@ -116,6 +116,15 @@ class Valorant {
         });
     }
 
+    getPlayerMatchHistory(id, startIndex = 0, endIndex = 10) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-history/v1/history/${id}?startIndex=${startIndex}&endIndex=${endIndex}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
     getPlayers(ids) {
         return axios.put(this.getPlayerDataServiceUrl(this.region) + '/name-service/v2/players', ids,{
             headers: {
