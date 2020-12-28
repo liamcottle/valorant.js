@@ -17,10 +17,15 @@ class Valorant {
         this.username = null;
         this.access_token = null;
         this.entitlements_token = null;
+        this.client_version = 'release-01.14-shipping-32-502227';
     }
 
     getPlayerDataDomain(region) {
         return `https://pd.${region}.a.pvp.net`;
+    }
+
+    getSharedDataDomain(region) {
+        return `https://shared.${region}.a.pvp.net`;
     }
 
     authorize(username, password) {
@@ -74,6 +79,16 @@ class Valorant {
                 this.access_token = access_token;
                 this.entitlements_token = response.data.entitlements_token;
             });
+        });
+    }
+
+    getContent() {
+        return axios.get(this.getSharedDataDomain(this.region) + '/content-service/v2/content', {
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+                'X-Riot-ClientVersion': this.client_version,
+            },
         });
     }
 
