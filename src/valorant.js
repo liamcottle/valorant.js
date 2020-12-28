@@ -24,6 +24,10 @@ class Valorant {
         return `https://pd.${region}.a.pvp.net`;
     }
 
+    getPartyServiceUrl(region) {
+        return `https://glz-${region}-1.${region}.a.pvp.net`;
+    }
+
     getSharedDataDomain(region) {
         return `https://shared.${region}.a.pvp.net`;
     }
@@ -84,6 +88,16 @@ class Valorant {
 
     getContent() {
         return axios.get(this.getSharedDataDomain(this.region) + '/content-service/v2/content', {
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+                'X-Riot-ClientVersion': this.client_version,
+            },
+        });
+    }
+
+    getParty(id) {
+        return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${id}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
