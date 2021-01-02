@@ -1,5 +1,5 @@
 {
-  "name": "valorant-api-nodejs",
+  "name": "valorant-api",
   "version": "0.0.1",
   "description": "Unofficial NodeJS library for the VALORANT APIs used in game.",
   "main": "src/valorant.js",
