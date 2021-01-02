@@ -1,8 +1,8 @@
 const Regions = {
-    NorthAmerica: 'NA',
-    Europe: 'EU',
     AsiaPacific: 'AP',
+    Europe: 'EU',
     Korea: 'KO',
+    NorthAmerica: 'NA',
 }
 
 module.exports = Regions;
