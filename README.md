@@ -16,7 +16,7 @@ Below is a list of API calls that are implemented in this library.
 
 - [x] `authorize(username, password)`
 - [x] `getConfig(region)`
-- [x] `getContent`
+- [x] `getContent()`
 - [x] `getMatch(matchId)`
 - [x] `getParty(partyId)`
 - [x] `getPartyByPlayer(playerId)`
