@@ -34,6 +34,7 @@ valorant.authorize('username', 'password').then(() => {
     // you can print out your auth data like so
     console.log({
         username: valorant.username,
+        user_id: valorant.user_id,
         access_token: valorant.access_token,
         entitlements_token: valorant.entitlements_token,
     });
@@ -52,6 +53,7 @@ Alternatively, if you already have your `access_token` and `entitlements_token` 
 ```js
 // use saved auth details
 valorant.username = 'username';
+valorant.user_id = 'uuid',
 valorant.access_token = 'eyJ...';
 valorant.entitlements_token = 'eyJ...';
 ```
