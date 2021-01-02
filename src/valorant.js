@@ -17,6 +17,7 @@ class ValorantAPI {
     constructor(region = regions.AsiaPacific) {
         this.region = region;
         this.username = null;
+        this.user_id = null;
         this.access_token = null;
         this.entitlements_token = null;
         this.client_version = 'release-01.14-shipping-32-502227';
@@ -84,6 +85,16 @@ class ValorantAPI {
                 this.username = username;
                 this.access_token = access_token;
                 this.entitlements_token = response.data.entitlements_token;
+            });
+        }).then(() => {
+            return axios.post('https://auth.riotgames.com/userinfo',{},{
+                jar: cookieJar,
+                withCredentials: true,
+                headers: {
+                    'Authorization': `Bearer ${this.access_token}`,
+                },
+            }).then((response) => {
+                this.user_id = response.data.sub;
             });
         });
     }
