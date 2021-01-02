@@ -56,6 +56,38 @@ valorant.access_token = 'eyJ...';
 valorant.entitlements_token = 'eyJ...';
 ```
 
+## Full Example
+
+```js
+const { ValorantAPI, ValorantRegions } = require('@liamcottle/valorant-api');
+const valorant = new ValorantAPI(ValorantRegions.AsiaPacific);
+
+// auth with valorant apis
+valorant.authorize('username', 'password').then(() => {
+
+    // log auth data
+    console.log({
+        username: valorant.username,
+        user_id: valorant.user_id,
+        access_token: valorant.access_token,
+        entitlements_token: valorant.entitlements_token,
+    });
+
+    // log wallet balances
+    valorant.getPlayerWallet(valorant.user_id).then((response) => {
+        console.log(response.data);
+    });
+
+    // log competitive history
+    valorant.getPlayerCompetitiveHistory(valorant.user_id).then((response) => {
+        console.log(response.data);
+    });
+
+}).catch((error) => {
+    console.log(error);
+});
+````
+
 ## Implemented API Calls
 
 Below is a list of API calls that are implemented in this library.
