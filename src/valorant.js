@@ -86,6 +86,10 @@ class Valorant {
         });
     }
 
+    getConfig(region = this.region) {
+        return axios.get(this.getSharedDataServiceUrl(region) + '/v1/config/' + region);
+    }
+
     getContent() {
         return axios.get(this.getSharedDataServiceUrl(this.region) + '/content-service/v2/content', {
             headers: {
