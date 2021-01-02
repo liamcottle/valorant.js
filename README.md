@@ -1,4 +1,4 @@
-# VALORANT API NodeJS
+# VALORANT.js
 
 This is an unofficial NodeJS library for interacting with the [VALORANT](https://playvalorant.com/) APIs used in game.
 
@@ -7,81 +7,69 @@ This is an unofficial NodeJS library for interacting with the [VALORANT](https:/
 To use this library in your own NodeJS app, you can install it via `npm`.
 
 ```
-npm install @liamcottle/valorant-api
+npm install @liamcottle/valorant.js
 ```
 
 ## Usage
 
-Before using this library, you need to determine which region your player data belongs to. You can find the known regions in the [regions.js](./src/regions.js) file. Once you have determined your region, create a new `ValorantAPI` instance like so:
+First, Create a new `Valorant.API` instance with the region associated with your player data.
 
 ```js
-const { ValorantAPI, ValorantRegions } = require('@liamcottle/valorant-api');
-const valorant = new ValorantAPI(ValorantRegions.AsiaPacific);
+const Valorant = require('@liamcottle/valorant.js');
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 ```
 
-> If your region is not listed, but you know your region code, you can pass it in directly:
+> If your region is not available in the `Valorant.Regions` class, but you know your region code, you can pass it in directly:
 > ```
-> const valorant = new ValorantAPI('ap');
+> const valorantApi = new Valorant.API('NA');
 > ```
 
-Once you have a `ValorantAPI` instance, the library needs to authenticate with the Riot APIs. This allows you to fetch player data. You can do so automatically by calling `authorize` with your username and password.
-
-Your `username`, `access_token` and `entitlements_token` are cached in the `ValorantAPI` instance.
+Once you have a `Valorant.API` instance, you need to obtain an `access_token` and `entitlements_token` which are used for authorization when making requests to the Valorant APIs.
 
 ```js
-valorant.authorize('username', 'password').then(() => {
-    
-    // you can print out your auth data like so
-    console.log({
-        username: valorant.username,
-        user_id: valorant.user_id,
-        access_token: valorant.access_token,
-        entitlements_token: valorant.entitlements_token,
-    });
-
-    // authentication was successful, so you can now make requests to the valorant apis
-
+valorantApi.authorize('username', 'password').then(() => {
+    // auth was successful, go make some requests!
 }).catch((error) => {
     console.log(error);
 });
 ````
 
-> Note that the `access_token` and `entitlements_token` do expire after some time. So you will need to authorize again.
+> Note that the `access_token` and `entitlements_token` do expire after some time. So you will need to authorize again once they expire.
 
 Alternatively, if you already have your `access_token` and `entitlements_token` you can set them like so:
 
 ```js
-// use saved auth details
-valorant.username = 'username';
-valorant.user_id = 'uuid',
-valorant.access_token = 'eyJ...';
-valorant.entitlements_token = 'eyJ...';
+// use saved authorization details
+valorantApi.username = 'username';
+valorantApi.user_id = 'uuid',
+valorantApi.access_token = 'eyJ...';
+valorantApi.entitlements_token = 'eyJ...';
 ```
 
-## Full Example
+## Example
 
 ```js
-const { ValorantAPI, ValorantRegions } = require('@liamcottle/valorant-api');
-const valorant = new ValorantAPI(ValorantRegions.AsiaPacific);
+const Valorant = require('@liamcottle/valorant.js');
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 // auth with valorant apis
-valorant.authorize('username', 'password').then(() => {
+valorantApi.authorize('username', 'password').then(() => {
 
     // log auth data
     console.log({
-        username: valorant.username,
-        user_id: valorant.user_id,
-        access_token: valorant.access_token,
-        entitlements_token: valorant.entitlements_token,
+        username: valorantApi.username,
+        user_id: valorantApi.user_id,
+        access_token: valorantApi.access_token,
+        entitlements_token: valorantApi.entitlements_token,
     });
 
     // log wallet balances
-    valorant.getPlayerWallet(valorant.user_id).then((response) => {
+    valorantApi.getPlayerWallet(valorantApi.user_id).then((response) => {
         console.log(response.data);
     });
 
     // log competitive history
-    valorant.getPlayerCompetitiveHistory(valorant.user_id).then((response) => {
+    valorantApi.getPlayerCompetitiveHistory(valorantApi.user_id).then((response) => {
         console.log(response.data);
     });
 
