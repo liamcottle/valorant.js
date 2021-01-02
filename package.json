@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Unofficial NodeJS library for the VALORANT APIs used in game.",
   "main": "src/valorant.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/liamcottle/valorant-api-nodejs.git"
