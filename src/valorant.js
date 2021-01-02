@@ -100,6 +100,15 @@ class Valorant {
         });
     }
 
+    getMatch(id) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-details/v1/matches/${id}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
     getParty(id) {
         return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${id}`,{
             headers: {
