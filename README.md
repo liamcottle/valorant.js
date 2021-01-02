@@ -71,3 +71,7 @@ valorant.username = 'username';
 valorant.access_token = 'eyJ...';
 valorant.entitlements_token = 'eyJ...';
 ```
+
+## License
+
+MIT
