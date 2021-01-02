@@ -7,7 +7,7 @@ This is an unofficial NodeJS library for interacting with the [VALORANT](https:/
 To use this library in your own NodeJS app, you can install it via `npm`.
 
 ```
-npm install liamcottle/valorant-api
+npm install @liamcottle/valorant-api
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install liamcottle/valorant-api
 Before using this library, you need to determine which region your player data belongs to. You can find the known regions in the [regions.js](./src/regions.js) file. Once you have determined your region, create a new `ValorantAPI` instance like so:
 
 ```js
-const { ValorantAPI, ValorantRegions } = require('valorant-api');
+const { ValorantAPI, ValorantRegions } = require('@liamcottle/valorant-api');
 const valorant = new ValorantAPI(ValorantRegions.AsiaPacific);
 ```
 
