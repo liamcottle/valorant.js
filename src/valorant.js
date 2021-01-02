@@ -100,8 +100,8 @@ class Valorant {
         });
     }
 
-    getMatch(id) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-details/v1/matches/${id}`,{
+    getMatch(matchId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-details/v1/matches/${matchId}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -109,18 +109,8 @@ class Valorant {
         });
     }
 
-    getParty(id) {
-        return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${id}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
-        });
-    }
-
-    getPlayerParty(id) {
-        return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/players/${id}`,{
+    getParty(partyId) {
+        return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${partyId}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -129,17 +119,8 @@ class Valorant {
         });
     }
 
-    getPlayerLoadout(id) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/personalization/v2/players/${id}/playerloadout`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
-        });
-    }
-
-    getPlayerMMR(id) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${id}`,{
+    getPlayerParty(playerId) {
+        return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/players/${playerId}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -148,8 +129,8 @@ class Valorant {
         });
     }
 
-    getPlayerMatchHistory(id, startIndex = 0, endIndex = 10) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-history/v1/history/${id}?startIndex=${startIndex}&endIndex=${endIndex}`,{
+    getPlayerLoadout(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/personalization/v2/players/${playerId}/playerloadout`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -157,8 +138,18 @@ class Valorant {
         });
     }
 
-    getPlayerCompetitiveHistory(id, startIndex = 0, endIndex = 10) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${id}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}`,{
+    getPlayerMMR(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${playerId}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+                'X-Riot-ClientVersion': this.client_version,
+            },
+        });
+    }
+
+    getPlayerMatchHistory(playerId, startIndex = 0, endIndex = 10) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-history/v1/history/${playerId}?startIndex=${startIndex}&endIndex=${endIndex}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -166,8 +157,8 @@ class Valorant {
         });
     }
 
-    getPlayerWallet(id) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/wallet/${id}`,{
+    getPlayerCompetitiveHistory(playerId, startIndex = 0, endIndex = 10) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${playerId}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -175,8 +166,8 @@ class Valorant {
         });
     }
 
-    getPlayerStoreFront(id) {
-        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v2/storefront/${id}`,{
+    getPlayerWallet(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/wallet/${playerId}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
@@ -184,8 +175,17 @@ class Valorant {
         });
     }
 
-    getPlayers(ids) {
-        return axios.put(this.getPlayerDataServiceUrl(this.region) + '/name-service/v2/players', ids,{
+    getPlayerStoreFront(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v2/storefront/${playerId}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
+    getPlayers(playerIds) {
+        return axios.put(this.getPlayerDataServiceUrl(this.region) + '/name-service/v2/players', playerIds,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
                 'X-Riot-Entitlements-JWT': this.entitlements_token,
