@@ -19,7 +19,10 @@ const { ValorantAPI, ValorantRegions } = require('valorant-api');
 const valorant = new ValorantAPI(ValorantRegions.AsiaPacific);
 ```
 
-> If your region is not listed, but you know your region code, you can pass it in directly: `const valorant = new ValorantAPI('ap');`
+> If your region is not listed, but you know your region code, you can pass it in directly:
+> ```
+> const valorant = new ValorantAPI('ap');
+> ```
 
 Once you have a `ValorantAPI` instance, the library needs to authenticate with the Riot APIs. This allows you to fetch player data. You can do so automatically by calling `authorize` with your username and password.
 
