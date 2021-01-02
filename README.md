@@ -10,25 +10,6 @@ To use this library in your own NodeJS app, you can install it via `npm`.
 npm install liamcottle/valorant-api
 ```
 
-## Implemented API Calls
-
-Below is a list of API calls that are implemented in this library.
-
-- [x] `authorize(username, password)`
-- [x] `getConfig(region)`
-- [x] `getContent()`
-- [x] `getMatch(matchId)`
-- [x] `getParty(partyId)`
-- [x] `getPartyByPlayer(playerId)`
-- [x] `getPlayerLoadout(playerId)`
-- [x] `getPlayerMMR(playerId)`
-- [x] `getPlayerMatchHistory(playerId, startIndex, endIndex)`
-- [x] `getPlayerCompetitiveHistory(playerId, startIndex, endIndex)`
-- [x] `getPlayerWallet(playerId)`
-- [x] `getPlayerStoreFront(playerId)`
-- [x] `getPlayers(playerIds)`
-- [x] `getStoryContractDefinitions()`
-
 ## Usage
 
 Before using this library, you need to determine which region your player data belongs to. You can find the known regions in the [regions.js](./src/regions.js) file. Once you have determined your region, create a new `ValorantAPI` instance like so:
@@ -71,6 +52,25 @@ valorant.username = 'username';
 valorant.access_token = 'eyJ...';
 valorant.entitlements_token = 'eyJ...';
 ```
+
+## Implemented API Calls
+
+Below is a list of API calls that are implemented in this library.
+
+- [x] `authorize(username, password)`
+- [x] `getConfig(region)`
+- [x] `getContent()`
+- [x] `getMatch(matchId)`
+- [x] `getParty(partyId)`
+- [x] `getPartyByPlayer(playerId)`
+- [x] `getPlayerLoadout(playerId)`
+- [x] `getPlayerMMR(playerId)`
+- [x] `getPlayerMatchHistory(playerId, startIndex, endIndex)`
+- [x] `getPlayerCompetitiveHistory(playerId, startIndex, endIndex)`
+- [x] `getPlayerWallet(playerId)`
+- [x] `getPlayerStoreFront(playerId)`
+- [x] `getPlayers(playerIds)`
+- [x] `getStoryContractDefinitions()`
 
 ## License
 
