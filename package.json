@@ -1,11 +1,11 @@
 {
-  "name": "@liamcottle/valorant-api",
+  "name": "@liamcottle/valorant.js",
   "version": "0.0.2",
   "description": "Unofficial NodeJS library for the VALORANT APIs used in game.",
-  "main": "src/valorant.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liamcottle/valorant-api-nodejs.git"
+    "url": "git+https://github.com/liamcottle/valorant.js.git"
   },
   "keywords": [
     "valorant",
@@ -14,9 +14,9 @@
   "author": "Liam Cottle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liamcottle/valorant-api-nodejs/issues"
+    "url": "https://github.com/liamcottle/valorant.js/issues"
   },
-  "homepage": "https://github.com/liamcottle/valorant-api-nodejs#readme",
+  "homepage": "https://github.com/liamcottle/valorant.js#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "axios-cookiejar-support": "^1.0.1",
