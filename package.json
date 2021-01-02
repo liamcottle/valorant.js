@@ -9,7 +9,13 @@
   },
   "keywords": [
     "valorant",
-    "api"
+    "api",
+    "riot",
+    "js",
+    "nodejs",
+    "competitive",
+    "match",
+    "history"
   ],
   "author": "Liam Cottle",
   "license": "MIT",
