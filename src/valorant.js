@@ -6,11 +6,13 @@ const querystring = require('querystring');
 const tough = require('tough-cookie');
 const url = require('url');
 
+const maps = require('./maps');
 const regions = require('./regions');
+const tiers = require('./tiers');
 
 axiosCookieJarSupport(axios);
 
-class Valorant {
+class ValorantAPI {
 
     constructor(region = regions.AsiaPacific) {
         this.region = region;
@@ -204,4 +206,9 @@ class Valorant {
 
 }
 
-module.exports = Valorant;
+module.exports = {
+    ValorantAPI: ValorantAPI,
+    ValorantMaps: maps,
+    ValorantRegions: regions,
+    ValorantTiers: tiers,
+};
