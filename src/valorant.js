@@ -119,7 +119,7 @@ class Valorant {
         });
     }
 
-    getPlayerParty(playerId) {
+    getPartyByPlayer(playerId) {
         return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/players/${playerId}`,{
             headers: {
                 'Authorization': `Bearer ${this.access_token}`,
