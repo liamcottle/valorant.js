@@ -80,7 +80,7 @@ valorantApi.authorize('username', 'password').then(() => {
 
 ## View Competitive Rank and Elo
 
-If you're interested in getting information about your current rank and how long until your rank up, you could do something like this:
+If you're interested in getting information about your current rank and how long until you rank up, you could do something like this:
 
 ```js
 const Valorant = require('@liamcottle/valorant.js');
