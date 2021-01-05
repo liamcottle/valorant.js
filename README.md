@@ -78,6 +78,51 @@ valorantApi.authorize('username', 'password').then(() => {
 });
 ````
 
+## View Competitive Rank and Elo
+
+If you're interested in getting information about your current rank and how long until your rank up, you could do something like this:
+
+```js
+const Valorant = require('@liamcottle/valorant.js');
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
+
+function calculateElo(tier, progress) {
+    return ((tier * 100) - 300) + progress;
+}
+
+// auth with valorant apis
+valorantApi.authorize('username', 'password').then(() => {
+
+    // get player mmr
+    valorantApi.getPlayerMMR(valorantApi.user_id).then((response) => {
+
+        if(response.data.LatestCompetitiveUpdate){
+            const update = response.data.LatestCompetitiveUpdate;
+            var elo = calculateElo(update.TierAfterUpdate, update.TierProgressAfterUpdate);
+            console.log(`Movement: ${update.CompetitiveMovement}`);
+            console.log(`Current Tier: ${update.TierAfterUpdate} (${Valorant.Tiers[update.TierAfterUpdate]})`);
+            console.log(`Current Tier Progress: ${update.TierProgressAfterUpdate}/100`);
+            console.log(`Total Elo: ${elo}`);
+        } else {
+            console.log("No competitive update available. Have you played a competitive match yet?");
+        }
+
+    });
+
+}).catch((error) => {
+    console.log(error);
+});
+```
+
+Which will output something like this:
+
+```
+Movement: DEMOTED
+Current Tier: 11 (Silver 3)
+Current Tier Progress: 72/100
+Total ELO: 872
+```
+
 ## Implemented API Calls
 
 Below is a list of API calls that are implemented in this library.
