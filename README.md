@@ -114,13 +114,20 @@ valorantApi.authorize('username', 'password').then(() => {
 });
 ```
 
-Which will output something like this:
+Which will output something like these:
 
 ```
 Movement: DEMOTED
 Current Tier: 11 (Silver 3)
 Current Tier Progress: 72/100
 Total ELO: 872
+```
+
+```
+Movement: MAJOR_INCREASE
+Current Tier: 12 (Gold 1)
+Current Tier Progress: 42/100
+Total Elo: 942
 ```
 
 ## Implemented API Calls
