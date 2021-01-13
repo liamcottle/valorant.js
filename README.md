@@ -98,10 +98,10 @@ valorantApi.authorize('username', 'password').then(() => {
 
         if(response.data.LatestCompetitiveUpdate){
             const update = response.data.LatestCompetitiveUpdate;
-            var elo = calculateElo(update.TierAfterUpdate, update.TierProgressAfterUpdate);
+            var elo = calculateElo(update.TierAfterUpdate, update.RankedRatingAfterUpdate);
             console.log(`Movement: ${update.CompetitiveMovement}`);
             console.log(`Current Tier: ${update.TierAfterUpdate} (${Valorant.Tiers[update.TierAfterUpdate]})`);
-            console.log(`Current Tier Progress: ${update.TierProgressAfterUpdate}/100`);
+            console.log(`Current Tier Progress: ${update.RankedRatingAfterUpdate}/100`);
             console.log(`Total Elo: ${elo}`);
         } else {
             console.log("No competitive update available. Have you played a competitive match yet?");
