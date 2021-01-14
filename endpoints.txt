@@ -14,7 +14,7 @@
 [CoreGame_FetchTeamChatMUCToken] GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/teamchatmuctoken
 [CoreGame_FetchVoiceToken] GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/teamvoicetoken
 [CoreGame_FetchMatchLoadouts]    GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/loadouts
-[CoreGame_DisassociatePlayer]    POST https://glz-ap-1.ap.a.pvp.net/core-game/v1/players/${playerId}/disassociate/${unknownId}
+[CoreGame_DisassociatePlayer]    POST https://glz-ap-1.ap.a.pvp.net/core-game/v1/players/${playerId}/disassociate/${matchId}
 
 [DisplayNameService_FetchPlayers_BySubjects] PUT  https://pd.ap.a.pvp.net/name-service/v2/players
 [DisplayNameService_UpdatePlayer]            POST https://pd.ap.a.pvp.net/name-service/v2/players
