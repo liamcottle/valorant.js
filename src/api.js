@@ -18,7 +18,7 @@ class API {
         this.user_id = null;
         this.access_token = null;
         this.entitlements_token = null;
-        this.client_version = 'release-01.14-shipping-32-502227';
+        this.client_version = 'release-02.00-shipping-16-508517';
     }
 
     getPlayerDataServiceUrl(region) {
