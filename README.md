@@ -130,6 +130,66 @@ Current Tier Progress: 42/100
 Total Elo: 942
 ```
 
+## View Competitive Leaderboard
+
+If you're interested in getting the current competitive leaderboards shown in game, you can request them like so:
+
+```js
+const Valorant = require('@liamcottle/valorant.js');
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
+
+// auth with valorant apis
+valorantApi.authorize('username', 'password').then(() => {
+    
+    // episode 2, act 1
+    var seasonId = '97b6e739-44cc-ffa7-49ad-398ba502ceb0';
+    
+    // get competitive leaderboard
+    valorantApi.getCompetitiveLeaderboard(seasonId).then((response) => {
+        console.log(response.data);
+    });
+
+}).catch((error) => {
+    console.log(error);
+});
+```
+
+Which will output something like this: (I have blanked out the player IDs)
+
+```
+{
+  Deployment: 'ap-glz-ap-1',
+  QueueID: 'competitive',
+  SeasonID: '97b6e739-44cc-ffa7-49ad-398ba502ceb0',
+  Players: [
+    {
+      Subject: '00000000-0000-0000-0000-000000000000',
+      GameName: 'username1',
+      TagLine: 'tag1',
+      LeaderboardRank: 1,
+      RankedRating: 123,
+      NumberOfWins: 123,
+      PlayerCardID: '00000000-0000-0000-0000-000000000000',
+      TitleID: '00000000-0000-0000-0000-000000000000',
+      IsBanned: false,
+      IsAnonymized: false
+    },
+    {
+      Subject: '00000000-0000-0000-0000-000000000000',
+      GameName: 'username2',
+      TagLine: 'tag2',
+      LeaderboardRank: 2,
+      RankedRating: 123,
+      NumberOfWins: 123,
+      PlayerCardID: '00000000-0000-0000-0000-000000000000',
+      TitleID: '00000000-0000-0000-0000-000000000000',
+      IsBanned: false,
+      IsAnonymized: false
+    },
+  ]
+}
+```
+
 ## Implemented API Calls
 
 Below is a list of API calls that are implemented in this library.
@@ -137,6 +197,7 @@ Below is a list of API calls that are implemented in this library.
 - [x] `authorize(username, password)`
 - [x] `getConfig(region)`
 - [x] `getContent()`
+- [x] `getCompetitiveLeaderboard(seasonId)`
 - [x] `getMatch(matchId)`
 - [x] `getParty(partyId)`
 - [x] `getPartyByPlayer(playerId)`
