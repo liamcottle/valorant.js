@@ -1,0 +1,78 @@
+[Config_FetchConfig]    GET https://shared.ap.a.pvp.net/v1/config/ap
+[Content_FetchContent]  GET https://shared.ap.a.pvp.net/content-service/v2/content
+
+[Contracts_Fetch]       GET  https://pd.ap.a.pvp.net/contracts/v1/contracts/${playerId}
+[Contracts_Refresh]     GET  https://pd.ap.a.pvp.net/contracts/v1/contracts/${playerId}
+[Contracts_Activate]    POST https://pd.ap.a.pvp.net/contracts/v1/contracts/${playerId}/special/${contractId}
+
+[ContractDefinitions_Fetch]            GET https://pd.ap.a.pvp.net/contract-definitions/v2/definitions
+[ContractDefinitions_FetchActiveStory] GET https://pd.ap.a.pvp.net/contract-definitions/v2/definitions/story
+
+[CoreGame_FetchPlayer]           GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/players/${playerId}
+[CoreGame_FetchMatch]            GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}
+[CoreGame_FetchAllChatMUCToken]  GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/allchatmuctoken
+[CoreGame_FetchTeamChatMUCToken] GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/teamchatmuctoken
+[CoreGame_FetchVoiceToken] GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/teamvoicetoken
+[CoreGame_FetchMatchLoadouts]    GET  https://glz-ap-1.ap.a.pvp.net/core-game/v1/matches/${matchId}/loadouts
+[CoreGame_DisassociatePlayer]    POST https://glz-ap-1.ap.a.pvp.net/core-game/v1/players/${playerId}/disassociate/${unknownId}
+
+[DisplayNameService_FetchPlayers_BySubjects] PUT  https://pd.ap.a.pvp.net/name-service/v2/players
+[DisplayNameService_UpdatePlayer]            POST https://pd.ap.a.pvp.net/name-service/v2/players
+
+[ItemProgressionDefinitionsV2_Fetch] GET  https://pd.ap.a.pvp.net/contract-definitions/v3/item-upgrades
+
+[Latency_Stat]                   POST https://shared.ap.a.pvp.net/latency/v1/ingest
+[Latency_Stats]                  POST https://shared.ap.a.pvp.net/latency/v1/ingestMulti
+
+[LoginQueue_FetchToken]          POST https://apne.pp.riotgames.com/login-queue/v2/login/products/valorant/regions/ap
+
+[MatchDetails_FetchMatchDetails] GET  https://pd.ap.a.pvp.net/match-details/v1/matches/${matchId}
+
+[MatchHistory_FetchMatchHistory] GET  https://pd.ap.a.pvp.net/match-history/v1/history/${playerId}?startIndex=0&endIndex=15
+
+[MassRewards_ReconcilePlayer]    POST https://pd.ap.a.pvp.net/mass-rewards/v1/players/${playerId}/reconcile
+
+[MMR_FetchPlayer]                GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}
+[MMR_FetchCompetitiveUpdates]    GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}/competitiveupdates?startIndex=0&endIndex=15
+[MMR_FetchLeaderboard]           GET  https://pd.ap.a.pvp.net/mmr/v1/leaderboards/affinity/ap/queue/competitive/season/${seasonId}
+
+[playerLoadoutUpdate]            GET  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
+[playerLoadoutUpdate]            PUT  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
+
+[Party_FetchPlayer]              GET  https://glz-ap-1.ap.a.pvp.net/parties/v1/players/${playerId}
+                                      ?aresriot.aws-rclusterprod-ape1-1.ap-gp-hongkong-1=154
+                                      &preferredgamepods
+
+[Party_FetchParty]               GET  https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}
+[Party_FetchMUCToken]            GET  https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/muctoken
+[Party_FetchCustomGameConfigs]   GET  https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/customgameconfigs
+[Party_SetMemberReady]           POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/members/${playerId}/setReady
+[Party_ChangeQueue]              POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/queue
+[Party_ChangeTeamInCustomGame]   POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/customgamemembership/{TeamOne, TeamTwo or TeamSpectate}
+[Party_EnterMatchmakingQueue]    POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/matchmaking/join
+[Party_RefreshCompetitiveTier]   POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/members/${playerId}/refreshCompetitiveTier
+[Party_RefreshPlayerIdentity]    POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/members/${playerId}/refreshPlayerIdentity
+[Party_RefreshPings]             POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/members
+[Party_SetCustomGameSettings]    POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/customgamesettings
+[Party_SetAccessibility]         POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/accessibility
+[Party_MakeDefault]              POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/makedefault?queueID={unreated, competitive, spikerush or deathmatch}
+[Party_MakePartyInfoCustomGame]  POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/makecustomgame
+[Party_StartSoloExperience]  POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/startsoloexperience
+
+[Pregame_GetPlayer]              GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/players/${playerId}
+[Pregame_GetMatch]               GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}
+[Pregame_FetchChatToken]         GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/chattoken
+[Pregame_FetchVoiceToken]        GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/voicetoken
+[Pregame_GetMatchLoadouts]       GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/loadouts
+[Pregame_SelectCharacter]        POST https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/select/${characterId}
+[Pregame_LockCharacter]          POST https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/lock/${characterId}
+
+[Session_Get]                    GET  https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}
+[Session_Connect]                POST https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}/connect
+[Session_Heartbeat]              POST https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}/heartbeat
+[Session_ReConnect]              POST https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}/heartbeat
+
+[Store_getEntitlements]          GET  https://pd.ap.a.pvp.net/store/v1/entitlements/${playerId}/${itemTypeId}
+[Store_GetOffers]                GET  https://pd.ap.a.pvp.net/store/v1/offers
+[Store_GetWallet]                GET  https://pd.ap.a.pvp.net/store/v1/wallet/${playerId}
+[Store_GetStorefrontV2]          GET  https://pd.ap.a.pvp.net/store/v2/storefront/${playerId}
