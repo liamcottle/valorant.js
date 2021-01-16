@@ -232,6 +232,15 @@ class API {
         });
     }
 
+    getStoreOffers() {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/offers`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
 }
 
 module.exports = API;
