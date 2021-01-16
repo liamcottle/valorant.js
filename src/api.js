@@ -241,6 +241,16 @@ class API {
         });
     }
 
+    getContract(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/contracts/v1/contracts/${playerId}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+                'X-Riot-ClientVersion': this.client_version,
+            },
+        });
+    }
+
 }
 
 module.exports = API;
