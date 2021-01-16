@@ -214,6 +214,15 @@ class API {
         });
     }
 
+    getSession(playerId) {
+        return axios.get(this.getPartyServiceUrl(this.region) + `/session/v1/sessions/${playerId}`,{
+            headers: {
+                'Authorization': `Bearer ${this.access_token}`,
+                'X-Riot-Entitlements-JWT': this.entitlements_token,
+            },
+        });
+    }
+
     getStoryContractDefinitions() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + '/contract-definitions/v2/definitions/story',{
             headers: {
