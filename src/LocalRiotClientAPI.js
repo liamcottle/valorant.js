@@ -25,10 +25,10 @@ class LocalRiotClientAPI {
         this.password = password;
         this.port = port;
 
-        this.baseUrl = `https://127.0.0.1:${this.port}`;
         this.authorization = Buffer.from(`${this.username}:${this.password}`, 'utf8').toString('base64');
 
         this.axios = axios.create({
+            baseURL: `https://127.0.0.1:${this.port}`,
             headers: {
                 'Authorization': `Basic ${this.authorization}`,
             },
@@ -86,22 +86,22 @@ class LocalRiotClientAPI {
     }
 
     getFriends() {
-        return this.axios.get(this.baseUrl + '/chat/v4/friends');
+        return this.axios.get('/chat/v4/friends');
     }
 
     getFriendRequests() {
-        return this.axios.get(this.baseUrl + '/chat/v4/friendrequests');
+        return this.axios.get('/chat/v4/friendrequests');
     }
 
     addFriend(gameName, gameTag) {
-        return this.axios.post(this.baseUrl + '/chat/v4/friends', {
+        return this.axios.post('/chat/v4/friends', {
             'gameName': gameName,
             'gameTag': gameTag,
         });
     }
 
     removeFriend(puuid) {
-        return this.axios.delete(this.baseUrl + '/chat/v4/friends', {
+        return this.axios.delete('/chat/v4/friends', {
             'puuid': puuid,
         });
     }
