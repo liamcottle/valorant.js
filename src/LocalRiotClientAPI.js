@@ -94,9 +94,9 @@ class LocalRiotClientAPI {
     }
 
     addFriend(gameName, gameTag) {
-        return this.axios.post('/chat/v4/friends', {
-            'gameName': gameName,
-            'gameTag': gameTag,
+        return this.axios.post('/chat/v4/friendrequests', {
+            'game_name': gameName,
+            'game_tag': gameTag,
         });
     }
 
