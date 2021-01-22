@@ -18,7 +18,7 @@ class API {
         this.user_id = null;
         this.access_token = null;
         this.entitlements_token = null;
-        this.client_version = 'release-02.00-shipping-16-508517';
+        this.client_version = 'release-02.01-shipping-6-511946';
         this.client_platform = {
             "platformType": "PC",
             "platformOS": "Windows",
