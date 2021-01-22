@@ -19,6 +19,12 @@ class API {
         this.access_token = null;
         this.entitlements_token = null;
         this.client_version = 'release-02.00-shipping-16-508517';
+        this.client_platform = {
+            "platformType": "PC",
+            "platformOS": "Windows",
+            "platformOSVersion": "10.0.19042.1.256.64bit",
+            "platformChipset": "Unknown"
+        };
     }
 
     getPlayerDataServiceUrl(region) {
@@ -31,6 +37,22 @@ class API {
 
     getSharedDataServiceUrl(region) {
         return `https://shared.${region}.a.pvp.net`;
+    }
+
+    generateRequestHeaders(extraHeaders = {}) {
+        // generate default headers
+        const defaultHeaders = {
+            'Authorization': `Bearer ${this.access_token}`,
+            'X-Riot-Entitlements-JWT': this.entitlements_token,
+            'X-Riot-ClientVersion': this.client_version,
+            'X-Riot-ClientPlatform': Buffer.from(JSON.stringify(this.client_platform)).toString('base64'),
+        };
+
+        // merge in extra headers
+        return {
+            ...defaultHeaders,
+            ...extraHeaders,
+        }
     }
 
     authorize(username, password) {
@@ -103,169 +125,109 @@ class API {
 
     getContent() {
         return axios.get(this.getSharedDataServiceUrl(this.region) + '/content-service/v2/content', {
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getMatch(matchId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-details/v1/matches/${matchId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getParty(partyId) {
         return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${partyId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPartyByPlayer(playerId) {
         return axios.get(this.getPartyServiceUrl(this.region) + `/parties/v1/players/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getCompetitiveLeaderboard(seasonId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/leaderboards/affinity/${this.region}/queue/competitive/season/${seasonId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerLoadout(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/personalization/v2/players/${playerId}/playerloadout`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerMMR(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerMatchHistory(playerId, startIndex = 0, endIndex = 10) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-history/v1/history/${playerId}?startIndex=${startIndex}&endIndex=${endIndex}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerCompetitiveHistory(playerId, startIndex = 0, endIndex = 10) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${playerId}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerWallet(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/wallet/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayerStoreFront(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v2/storefront/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getPlayers(playerIds) {
         return axios.put(this.getPlayerDataServiceUrl(this.region) + '/name-service/v2/players', playerIds,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getSession(playerId) {
         return axios.get(this.getPartyServiceUrl(this.region) + `/session/v1/sessions/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getStoryContractDefinitions() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + '/contract-definitions/v2/definitions/story',{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getStoreOffers() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/offers`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getContract(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/contracts/v1/contracts/${playerId}`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-                'X-Riot-ClientVersion': this.client_version,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getItemUpgradesV2() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/contract-definitions/v2/item-upgrades`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
     getItemUpgradesV3() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/contract-definitions/v3/item-upgrades`,{
-            headers: {
-                'Authorization': `Bearer ${this.access_token}`,
-                'X-Riot-Entitlements-JWT': this.entitlements_token,
-            },
+            headers: this.generateRequestHeaders(),
         });
     }
 
