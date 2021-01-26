@@ -1,6 +1,6 @@
 # RiotClientServices.exe
 
-If you're reading this document, you're likely interesting in intercepting traffic from the local HTTP server or WebSocket server that runs on your local machine when you launch VALORANT.
+If you're reading this document, you're likely interested in intercepting traffic from the local HTTP server or WebSocket server that runs on your local machine when you launch VALORANT.
 
 A few things should be noted, for a fresh install of VALORANT:
 
