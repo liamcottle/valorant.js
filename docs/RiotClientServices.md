@@ -59,7 +59,7 @@ Your `lockfile` is usually stored at:
 C:\Users\username\AppData\Local\Riot Games\Riot Client\Config\lockfile
 ```
 
-The [LocalRiotClientAPI.js](./src/LocalRiotClientAPI.js) class shows how to parse this in the `parseLockFile` method.
+The [LocalRiotClientAPI.js](../src/LocalRiotClientAPI.js) class shows how to parse this in the `parseLockFile` method.
 
 Unfortunately, I haven't been unable to influence the password by passing in the following flags:
 
