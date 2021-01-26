@@ -100,10 +100,10 @@ class LocalRiotClientAPI {
         });
     }
     
-    sendMessage(message, pid) {
+    sendMessage(message, cid) {
         return this.axios.post('/chat/v5/messages', {
             'message': message,
-            'cid': pid,
+            'cid': cid,
         });
     }
     
