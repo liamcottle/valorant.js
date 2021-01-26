@@ -99,7 +99,14 @@ class LocalRiotClientAPI {
             'game_tag': gameTag,
         });
     }
-
+    
+    sendMessage(message, cid) {
+        return this.axios.post('/chat/v5/messages', {
+            'message': message,
+            'cid': cid,
+        });
+    }
+    
     removeFriend(puuid) {
         return this.axios.delete('/chat/v4/friends', {
             'puuid': puuid,
