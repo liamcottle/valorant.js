@@ -210,6 +210,20 @@ Below is a list of API calls that are implemented in this library.
 - [x] `getPlayers(playerIds)`
 - [x] `getStoryContractDefinitions()`
 
+# Local Riot Client API
+
+If you're looking for information on how to interact with `RiotClientServices.exe`, such as intercepting requests, take a look at the documentation in [RiotClientServices.md](./docs/RiotClientServices.md)
+
+A wrapper class exists in this repo, and can be used like so:
+
+```
+// init from your local lock file
+const localRiotClientApi = Valorant.LocalRiotClientAPI.initFromLockFile();
+
+// or, init with known credentials and port
+const localRiotClientApi = new Valorant.LocalRiotClientAPI('riot', 'yourtoken', 'localport');`
+```
+
 ## License
 
 MIT
