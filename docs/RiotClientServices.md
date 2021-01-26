@@ -47,6 +47,8 @@ With the following shortcut, we will be able to intercept RiotClientServices req
 
 If you're using Charles Proxy, make sure to install your custom CA Certificate into the `Trusted Root Certification Authorities` certificate trust store from the `Help` > `SSL Proxying` > `Install Charles Root Certificate` menu.
 
+Make sure you only have SSL Proxying enabled for `https://127.0.0.1:12345` and `wss://127.0.0.1:12345`, otherwise VALORANT will not run due to Vanguard throwing an error code of `VAL 29`.
+
 ## Lock File
 
 In order to obtain the password you need to authorize with the local RiotClientServices webserver, you can check your `lockfile`.
