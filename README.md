@@ -1,13 +1,13 @@
 # VALORANT.js
 
 <p align="center">
-    <a href="https://www.npmjs.com/package/@liamcottle/valorant.js">
+    <a href="https://www.npmjs.com/package/@liamcottle/valorant.js" style="text-decoration:none">
         <img src="https://img.shields.io/npm/dt/@liamcottle/valorant.js?logo=npm" alt="npm"/>
     </a>
-    <a href="https://discord.com/channels/@me">
+    <a href="https://discord.com/channels/@me" style="text-decoration:none">
         <img src="https://img.shields.io/badge/Discord-Liam%20Cottle%230001-%237289DA?style=flat&logo=discord" alt="discord"/>
     </a>
-    <a href="https://twitter.com/liamcottle">
+    <a href="https://twitter.com/liamcottle" style="text-decoration:none">
         <img src="https://img.shields.io/badge/Twitter-@liamcottle-%231DA1F2?style=flat&logo=twitter" alt="twitter"/>
     </a>
 </p>
