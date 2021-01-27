@@ -14,7 +14,7 @@
     </a>
 </p>
 
-This is an unofficial NodeJS library for interacting with the [VALORANT](https://playvalorant.com/) APIs used in game.
+This is an **unofficial** NodeJS library for interacting with the [VALORANT](https://playvalorant.com/) APIs used in game.
 
 ## Install
 
