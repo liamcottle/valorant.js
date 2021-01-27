@@ -4,7 +4,7 @@
 
 <p align="center">
     <a href="https://www.npmjs.com/package/@liamcottle/valorant.js">
-        <img src="https://img.shields.io/npm/dt/@liamcottle/valorant.js?logo=npm" alt="npm"/>
+        <img src="https://img.shields.io/npm/dt/@liamcottle/valorant.js" alt="npm"/>
     </a>
     <a href="https://discord.com/channels/@me">
         <img src="https://img.shields.io/badge/Discord-Liam%20Cottle%230001-%237289DA?style=flat&logo=discord" alt="discord"/>
