@@ -1,4 +1,6 @@
-# VALORANT.js
+<p align="center">
+    <img src="./valorant.js.svg" width="400"></a>
+</p>
 
 <p align="center">
     <a href="https://www.npmjs.com/package/@liamcottle/valorant.js">
