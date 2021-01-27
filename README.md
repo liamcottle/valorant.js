@@ -87,7 +87,7 @@ const Valorant = require('@liamcottle/valorant.js');
 const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 function calculateElo(tier, progress) {
-    if(tier >= "21") {
+    if(tier >= 21) {
         return 1800 + progress
     } else {
         return ((tier * 100) - 300) + progress;
