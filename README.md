@@ -233,7 +233,7 @@ A wrapper class exists in this repo, and can be used like so:
 const localRiotClientApi = Valorant.LocalRiotClientAPI.initFromLockFile();
 
 // or, init with known credentials and port
-const localRiotClientApi = new Valorant.LocalRiotClientAPI('riot', 'yourtoken', 'localport');`
+const localRiotClientApi = new Valorant.LocalRiotClientAPI('127.0.0.1', 'port', 'riot', 'yourtoken');`
 ```
 
 ## License
