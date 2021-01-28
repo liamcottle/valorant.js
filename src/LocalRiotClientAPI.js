@@ -13,6 +13,9 @@ const { spawn } = require('child_process');
  * `const localRiotClientApi = Valorant.LocalRiotClientAPI.initFromLockFile();`
  * `const localRiotClientApi = Valorant.LocalRiotClientAPI.launch(null, '12345', '0.0.0.0', 'valorant', 'live');`
  * `const localRiotClientApi = new Valorant.LocalRiotClientAPI('127.0.0.1', 'port', 'riot', 'yourtoken');`
+ *
+ * Some endpoints take a few seconds or so before they are available after logging in. You will generally receive an
+ * HTTP 503 error if they are not ready yet. Just wait a few seconds and try again.
  */
 class LocalRiotClientAPI {
 
