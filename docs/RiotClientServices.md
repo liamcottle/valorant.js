@@ -4,7 +4,7 @@ If you're reading this document, you're likely interested in intercepting traffi
 
 A few things should be noted, for a fresh install of VALORANT:
 
-- The webserver only binds to `127.0.0.1`.
+- The webserver binds to `127.0.0.1`.
 - The webserver requires requests over `https://` not `http://`.
 - The webserver runs on a random port every time `RiotClientServces.exe` is launched.
 - The webserver requires HTTP Basic Authentication, with the username `riot` and a random password which is generated when `RiotClientServices.exe` is launched.
@@ -37,6 +37,12 @@ We are also able to influence which port the webserver will run on, by passing i
 
 ```
 --app-port=12345
+```
+
+It is also possible to change the listen address of the webserver so you can access it from other devices on your network.
+
+```
+--app-listen-address=0.0.0.0
 ```
 
 With the following shortcut, we will be able to intercept RiotClientServices requests on `https://127.0.0.1:12345` and `wss://127.0.0.1:12345`.
