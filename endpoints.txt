@@ -1,3 +1,5 @@
+[AccountXP_GetPlayer]   GET https://pd.ap.a.pvp.net/account-xp/v1/players/${playerId}
+
 [Config_FetchConfig]    GET https://shared.ap.a.pvp.net/v1/config/ap
 [Content_FetchContent]  GET https://shared.ap.a.pvp.net/content-service/v2/content
 
@@ -57,7 +59,9 @@
 [Party_SetAccessibility]         POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/accessibility
 [Party_MakeDefault]              POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/makedefault?queueID={unreated, competitive, spikerush or deathmatch}
 [Party_MakePartyInfoCustomGame]  POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/makecustomgame
-[Party_StartSoloExperience]  POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/startsoloexperience
+[Party_StartSoloExperience]      POST https://glz-ap-1.ap.a.pvp.net/parties/v1/parties/${partyId}/startsoloexperience
+[Party_PlayerJoin]               POST https://glz-ap-1.eu.a.pvp.net/parties/v1/players/${own_playerId}/joinparty/${friends_playerId}
+[Party_PlayerLeave]              POST https://glz-ap-1.eu.a.pvp.net/parties/v1/players/${own_playerId}/leaveparty/${friends_playerId}
 
 [Pregame_GetPlayer]              GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/players/${playerId}
 [Pregame_GetMatch]               GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}
