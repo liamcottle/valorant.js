@@ -30,13 +30,14 @@
 
 [MatchDetails_FetchMatchDetails] GET  https://pd.ap.a.pvp.net/match-details/v1/matches/${matchId}
 
-[MatchHistory_FetchMatchHistory] GET  https://pd.ap.a.pvp.net/match-history/v1/history/${playerId}?startIndex=0&endIndex=15
+[MatchHistory_FetchMatchHistory] GET  https://pd.ap.a.pvp.net/match-history/v1/history/${playerId}?startIndex=0&endIndex=15&queue={gamemode}
 
 [MassRewards_ReconcilePlayer]    POST https://pd.ap.a.pvp.net/mass-rewards/v1/players/${playerId}/reconcile
 
 [MMR_FetchPlayer]                GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}
 [MMR_FetchCompetitiveUpdates]    GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}/competitiveupdates?startIndex=0&endIndex=15
 [MMR_FetchLeaderboard]           GET  https://pd.ap.a.pvp.net/mmr/v1/leaderboards/affinity/ap/queue/competitive/season/${seasonId}
+[MMR_HideActRankBadge]           POST https://pd.eu.a.pvp.net/mmr/v1/players/${playerId}/hideactrankbadge
 
 [playerLoadoutUpdate]            GET  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
 [playerLoadoutUpdate]            PUT  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
