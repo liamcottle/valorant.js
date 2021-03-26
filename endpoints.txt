@@ -21,7 +21,7 @@
 [DisplayNameService_FetchPlayers_BySubjects] PUT  https://pd.ap.a.pvp.net/name-service/v2/players
 [DisplayNameService_UpdatePlayer]            POST https://pd.ap.a.pvp.net/name-service/v2/players
 
-[ItemProgressionDefinitionsV2_Fetch] GET  https://pd.ap.a.pvp.net/contract-definitions/v3/item-upgrades
+[ItemProgressionDefinitionsV2_Fetch] GET https://pd.ap.a.pvp.net/contract-definitions/v3/item-upgrades
 
 [Latency_Stat]                   POST https://shared.ap.a.pvp.net/latency/v1/ingest
 [Latency_Stats]                  POST https://shared.ap.a.pvp.net/latency/v1/ingestMulti
@@ -30,13 +30,14 @@
 
 [MatchDetails_FetchMatchDetails] GET  https://pd.ap.a.pvp.net/match-details/v1/matches/${matchId}
 
-[MatchHistory_FetchMatchHistory] GET  https://pd.ap.a.pvp.net/match-history/v1/history/${playerId}?startIndex=0&endIndex=15
+[MatchHistory_FetchMatchHistory] GET  https://pd.ap.a.pvp.net/match-history/v1/history/${playerId}?startIndex=0&endIndex=15&queue={gamemode}
 
 [MassRewards_ReconcilePlayer]    POST https://pd.ap.a.pvp.net/mass-rewards/v1/players/${playerId}/reconcile
 
 [MMR_FetchPlayer]                GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}
 [MMR_FetchCompetitiveUpdates]    GET  https://pd.ap.a.pvp.net/mmr/v1/players/${playerId}/competitiveupdates?startIndex=0&endIndex=15
 [MMR_FetchLeaderboard]           GET  https://pd.ap.a.pvp.net/mmr/v1/leaderboards/affinity/ap/queue/competitive/season/${seasonId}
+[MMR_HideActRankBadge]           POST https://pd.eu.a.pvp.net/mmr/v1/players/${playerId}/hideactrankbadge
 
 [playerLoadoutUpdate]            GET  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
 [playerLoadoutUpdate]            PUT  https://pd.ap.a.pvp.net/personalization/v2/players/${playerId}/playerloadout
@@ -70,6 +71,8 @@
 [Pregame_GetMatchLoadouts]       GET  https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/loadouts
 [Pregame_SelectCharacter]        POST https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/select/${characterId}
 [Pregame_LockCharacter]          POST https://glz-ap-1.ap.a.pvp.net/pregame/v1/matches/${matchId}/lock/${characterId}
+
+[Restrictions_FetchPlayerRestrictionsV2] GET https://pd.eu.a.pvp.net/restrictions/v2/penalties
 
 [Session_Get]                    GET  https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}
 [Session_Connect]                POST https://glz-ap-1.ap.a.pvp.net/session/v1/sessions/${playerId}/connect
