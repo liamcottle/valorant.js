@@ -40,6 +40,7 @@ class LocalRiotClientAPI {
             baseURL: `https://${this.ip}:${this.port}`,
             headers: {
                 'Authorization': `Basic ${this.authorization}`,
+                'rchat-blocking': 'true'
             },
             httpsAgent: new https.Agent({
                 rejectUnauthorized: false, // disable ssl verification for self signed cert used by RiotClientServices.exe
