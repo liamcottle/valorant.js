@@ -183,6 +183,12 @@ class API {
         });
     }
 
+    getPlayerAccountXp(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/account-xp/v1/players/${playerId}`,{
+            headers: this.generateRequestHeaders(),
+        });
+    }
+
     getPlayerWallet(playerId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/wallet/${playerId}`,{
             headers: this.generateRequestHeaders(),
