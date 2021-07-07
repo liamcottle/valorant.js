@@ -129,6 +129,12 @@ class API {
         });
     }
 
+    getEntitlements(playerId) {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + `/store/v1/entitlements/${playerId}`,{
+            headers: this.generateRequestHeaders(),
+        });
+    }
+
     getMatch(matchId) {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + `/match-details/v1/matches/${matchId}`,{
             headers: this.generateRequestHeaders(),
