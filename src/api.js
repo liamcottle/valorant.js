@@ -213,6 +213,12 @@ class API {
         });
     }
 
+    getContractDefinitions() {
+        return axios.get(this.getPlayerDataServiceUrl(this.region) + '/contract-definitions/v2/definitions',{
+            headers: this.generateRequestHeaders(),
+        });
+    }
+
     getStoryContractDefinitions() {
         return axios.get(this.getPlayerDataServiceUrl(this.region) + '/contract-definitions/v2/definitions/story',{
             headers: this.generateRequestHeaders(),
