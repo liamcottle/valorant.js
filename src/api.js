@@ -5,24 +5,25 @@ const { Agent } = require("https");
 
 const regions = require("./regions");
 
-const ciphers = [
-  "TLS_CHACHA20_POLY1305_SHA256",
-  "TLS_AES_128_GCM_SHA256",
-  "TLS_AES_256_GCM_SHA384",
-  "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
-];
+// create https agent with expected ciphers to avoid 403 from cloudflare
 const agent = new Agent({
-  ciphers: ciphers.join(":"),
+  ciphers: [
+    "TLS_CHACHA20_POLY1305_SHA256",
+    "TLS_AES_128_GCM_SHA256",
+    "TLS_AES_256_GCM_SHA384",
+    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+  ].join(":"),
   honorCipherOrder: true,
   minVersion: "TLSv1.2",
 });
-const parseUrl = (uri) => {
+
+const parseTokensFromUrl = (uri) => {
   let url = new URL(uri);
   let params = new URLSearchParams(url.hash.substring(1));
-  let access_token = params.get("access_token");
-  let id_token = params.get("id_token");
-
-  return { access_token, id_token };
+  return {
+    access_token: params.get("access_token"),
+    id_token: params.get("id_token"),
+  };
 };
 
 class API {
@@ -32,6 +33,7 @@ class API {
     this.user_id = null;
     this.access_token = null;
     this.entitlements_token = null;
+    this.user_agent = "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)";
     this.client_version = "release-03.00-shipping-22-574489";
     this.client_platform = {
       platformType: "PC",
@@ -72,6 +74,7 @@ class API {
   }
 
   async authorize(username, password) {
+    // fetch session cookie
     const cookie = (
       await axios.post(
         "https://auth.riotgames.com/api/v1/authorization",
@@ -84,14 +87,14 @@ class API {
         },
         {
           headers: {
-            "User-Agent":
-              "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)",
+            "User-Agent": this.user_agent,
           },
           httpsAgent: agent,
         }
       )
     ).headers["set-cookie"].find((elem) => /^asid/.test(elem));
 
+    // fetch auth tokens
     var access_tokens = await axios.put(
       "https://auth.riotgames.com/api/v1/authorization",
       {
@@ -101,17 +104,18 @@ class API {
       },
       {
         headers: {
-          Cookie: cookie,
-          "User-Agent":
-            "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)",
+          "Cookie": cookie,
+          "User-Agent": this.user_agent,
         },
         httpsAgent: agent,
       }
     );
 
-    var tokens = parseUrl(access_tokens.data.response.parameters.uri);
+    // update access token
+    var tokens = parseTokensFromUrl(access_tokens.data.response.parameters.uri);
     this.access_token = tokens.access_token;
 
+    // fetch entitlements token
     this.entitlements_token = (
       await axios.post(
         "https://entitlements.auth.riotgames.com/api/token/v1",
@@ -123,6 +127,8 @@ class API {
         }
       )
     ).data.entitlements_token;
+
+    // update user_id from access_token
     this.user_id = JSON.parse(
       Buffer.from(tokens.access_token.split(".")[1], "base64").toString()
     ).sub;
