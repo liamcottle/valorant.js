@@ -3,7 +3,7 @@
 const axios = require("axios").default;
 const languages = require("./languages");
 
-class assetsAPI {
+class Content {
   /**
    * Initialize the Assets API using https://valorant-api.com/
    * @param {string} language The language of the output

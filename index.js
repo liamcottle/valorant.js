@@ -4,6 +4,6 @@ module.exports = {
   Regions: require("./src/regions"),
   Tiers: require("./src/tiers"),
   LocalRiotClientAPI: require("./src/LocalRiotClientAPI"),
-  assetsAPI: require("./src/assatesApi"),
+  Content: require("./src/contentApi"),
   languages: require("./src/languages"),
 };
