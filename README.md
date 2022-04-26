@@ -11,7 +11,7 @@
 <a href="./donate.md"><img src="https://img.shields.io/badge/Donate%20Bitcoin-3FPBfiEwioWHFix3kZqe5bdU9F5o8mG8dh-%23FF9900?style=flat&logo=bitcoin" alt="donate bitcoin"/></a>
 </p>
 
-This is an **unofficial** NodeJS library for interacting with the [VALORANT](https://playvalorant.com/) APIs used in game.
+This is an **unofficial** NodeJS library for interacting with the [VALORANT](https://playvalorant.com/) APIs used in game. It also serves as a wrapper around third party APIs that provide game content such as maps, player cards and weapons.
 
 ## Install
 
@@ -224,6 +224,10 @@ Below is a list of API calls that are implemented in this library.
 - [x] `getPlayerStoreFront(playerId)`
 - [x] `getPlayers(playerIds)`
 - [x] `getStoryContractDefinitions()`
+
+# Content API
+
+Check out the [Content API Docs](./docs/ContentAPI.md) if you're wanting to fetch game assets such as Maps, Player Cards and Weapons.
 
 # Local Riot Client API
 
