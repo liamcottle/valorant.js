@@ -225,11 +225,11 @@ Below is a list of API calls that are implemented in this library.
 - [x] `getPlayers(playerIds)`
 - [x] `getStoryContractDefinitions()`
 
-# Content API
+## Content API
 
 Check out the [Content API Docs](./docs/ContentAPI.md) if you're wanting to fetch game assets such as Maps, Player Cards and Weapons.
 
-# Local Riot Client API
+## Local Riot Client API
 
 If you're looking for information on how to interact with `RiotClientServices.exe`, such as intercepting requests, take a look at the documentation in [RiotClientServices.md](./docs/RiotClientServices.md)
 
@@ -241,6 +241,21 @@ const localRiotClientApi = Valorant.LocalRiotClientAPI.initFromLockFile();
 
 // or, init with known credentials and port
 const localRiotClientApi = new Valorant.LocalRiotClientAPI('127.0.0.1', 'port', 'riot', 'yourtoken');`
+```
+
+## Support
+
+- If you need any help, feel free to [Join the Discord](https://discord.gg/APQSQZNV7t).
+- If you find a bug, feel free to open an issue or submit a pull request.
+
+In some cases, you might receive an `HTTP 404` error when using some in-game APIs. It's likely that the `client_version` we are using is outdated.
+
+You can find the latest `client_version` [here](https://valorant-api.com/v1/version) listed as `riotClientVersion` and you can manually set the `client_version` used in this library like so:
+
+```
+const Valorant = require('@liamcottle/valorant.js');
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
+valorantApi.client_version = "...";
 ```
 
 ## License
