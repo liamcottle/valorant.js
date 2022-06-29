@@ -111,6 +111,11 @@ class API {
       }
     );
 
+    // throw exception for auth_failure
+    if(access_tokens.data?.error === 'auth_failure'){
+      throw new Error("auth_failure: username or password is incorrect.");
+    }
+
     // update access token
     var tokens = parseTokensFromUrl(access_tokens.data.response.parameters.uri);
     this.access_token = tokens.access_token;
