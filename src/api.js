@@ -34,7 +34,7 @@ class API {
     this.access_token = null;
     this.entitlements_token = null;
     this.user_agent = "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)";
-    this.client_version = "release-04.07-shipping-15-699063";
+    this.client_version = "release-05.00-shipping-6-725355";
     this.client_platform = {
       platformType: "PC",
       platformOS: "Windows",
