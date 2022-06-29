@@ -2,8 +2,10 @@
 
 const axios = require("axios").default;
 const { Agent } = require("https");
+const prompt = require("prompt");
 
-const regions = require("./regions");
+const Errors = require("./errors");
+const Regions = require("./regions");
 
 // create https agent with expected ciphers to avoid 403 from cloudflare
 const agent = new Agent({
@@ -17,6 +19,10 @@ const agent = new Agent({
   minVersion: "TLSv1.2",
 });
 
+const parseSessionCookie = (response) => {
+  return response.headers["set-cookie"].find((elem) => /^asid/.test(elem));
+}
+
 const parseTokensFromUrl = (uri) => {
   let url = new URL(uri);
   let params = new URLSearchParams(url.hash.substring(1));
@@ -26,14 +32,22 @@ const parseTokensFromUrl = (uri) => {
   };
 };
 
+const parseUserIdFromAccessToken = (accessToken) => {
+  const jwt = accessToken.split(".");
+  const payload = Buffer.from(jwt[1], "base64").toString();
+  const json = JSON.parse(payload);
+  return json.sub;
+};
+
 class API {
-  constructor(region = regions.AsiaPacific) {
+  constructor(region = Regions.AsiaPacific) {
     this.region = region;
     this.username = null;
     this.user_id = null;
     this.access_token = null;
     this.entitlements_token = null;
     this.user_agent = "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)";
+    this.axiosClient = axios.create();
     this.client_version = "release-05.00-shipping-6-725355";
     this.client_platform = {
       platformType: "PC",
@@ -73,12 +87,10 @@ class API {
     };
   }
 
-  async authorize(username, password) {
+  async getNewSessionCookie() {
+
     // fetch session cookie
-    const cookie = (
-      await axios.post(
-        "https://auth.riotgames.com/api/v1/authorization",
-        {
+    const response = await this.axiosClient.post("https://auth.riotgames.com/api/v1/authorization", {
           client_id: "play-valorant-web-prod",
           nonce: 1,
           redirect_uri: "https://playvalorant.com/opt_in",
@@ -90,63 +102,160 @@ class API {
             "User-Agent": this.user_agent,
           },
           httpsAgent: agent,
-        }
-      )
-    ).headers["set-cookie"].find((elem) => /^asid/.test(elem));
-
-    // fetch auth tokens
-    var access_tokens = await axios.put(
-      "https://auth.riotgames.com/api/v1/authorization",
-      {
-        type: "auth",
-        username: username,
-        password: password,
-      },
-      {
-        headers: {
-          "Cookie": cookie,
-          "User-Agent": this.user_agent,
         },
-        httpsAgent: agent,
-      }
     );
 
-    // throw exception for auth_failure
-    if(access_tokens.data?.error === 'auth_failure'){
-      throw new Error("auth_failure: username or password is incorrect.");
-    }
+    return parseSessionCookie(response);
 
-    // update access token
-    var tokens = parseTokensFromUrl(access_tokens.data.response.parameters.uri);
-    this.access_token = tokens.access_token;
+  }
+
+  async getEntitlementsToken(accessToken) {
 
     // fetch entitlements token
-    this.entitlements_token = (
-      await axios.post(
+    const response = await this.axiosClient.post(
         "https://entitlements.auth.riotgames.com/api/token/v1",
         {},
         {
           headers: {
-            Authorization: `Bearer ${tokens.access_token}`,
+            Authorization: `Bearer ${accessToken}`,
           },
-        }
-      )
-    ).data.entitlements_token;
+        },
+    );
 
-    // update user_id from access_token
-    this.user_id = JSON.parse(
-      Buffer.from(tokens.access_token.split(".")[1], "base64").toString()
-    ).sub;
+    return response.data.entitlements_token;
+
+  }
+
+  async authorize(username, password) {
+    return this.authWithCredentials(username, password);
+  }
+
+  async authWithCredentials(username, password) {
+
+    // fetch initial session cookie
+    this.cookie = await this.getNewSessionCookie();
+
+    // authenticate with credentials
+    const response = await this.axiosClient.put("https://auth.riotgames.com/api/v1/authorization", {
+          type: "auth",
+          username: username,
+          password: password,
+        }, {
+          headers: {
+            "Cookie": this.cookie,
+            "User-Agent": this.user_agent,
+          },
+          httpsAgent: agent,
+        },
+    );
+
+    return this._handleAuthResponse(response);
+
+  }
+
+  async authWithMultifactorCode(code) {
+
+    // authenticate with multifactor code
+    const response = await this.axiosClient.put("https://auth.riotgames.com/api/v1/authorization", {
+          type: "multifactor",
+          code: code.toString(), // should always be a string
+          rememberDevice: false,
+        },
+        {
+          headers: {
+            "Cookie": this.cookie,
+            "User-Agent": this.user_agent,
+          },
+          httpsAgent: agent,
+        },
+    );
+
+    return this._handleAuthResponse(response);
+
+  }
+
+  async _handleAuthResponse(response) {
+
+    // update session cookie
+    this.cookie = await parseSessionCookie(response);
+
+    // throw exception for auth_failure
+    if(response.data?.error === 'auth_failure'){
+      throw new Errors.AuthFailureError();
+    }
+
+    // throw exception if multifactor auth is required
+    if(response.data?.type === 'multifactor'){
+
+      // get multifactor info from response
+      const multifactor = response.data?.multifactor;
+
+      // check if multifactor attempt failed
+      if(response.data?.error === 'multifactor_attempt_failed'){
+        throw new Errors.MultifactorAuthAttemptFailedError(multifactor);
+      }
+
+      // fallback to multifactor auth required error
+      throw new Errors.MultifactorAuthRequiredError(multifactor);
+
+    }
+
+    // throw exception if tokens are missing from response
+    if(response.data?.response?.parameters?.uri === null){
+      throw new Errors.APIError("Auth tokens are is missing from auth response.");
+    }
+
+    // parse tokens from response
+    const tokens = parseTokensFromUrl(response.data.response.parameters.uri);
+
+    // update tokens
+    this.access_token = tokens.access_token;
+    this.user_id = parseUserIdFromAccessToken(tokens.access_token);
+    this.entitlements_token = await this.getEntitlementsToken(this.access_token);
+
+  }
+
+  /**
+   * Prompt the caller to enter a multifactor code. If the wrong code is entered, it will keep asking
+   * until the correct code is entered, or the server returns some other error that is not handled here.
+   * Note: This will only work from the command line.
+   * @return {Promise<void>}
+   */
+  async showMultifactorPrompt(multifactor) {
+
+    // determine which email the mfa code was sent to
+    const email = multifactor.email ?? 'unknown email';
+
+    // ask user for multifactor code
+    const {code} = await prompt.get([{
+      name: 'code',
+      description: `Enter MFA code sent to ${email}`,
+    }]);
+
+    // submit multifactor code
+    return this.authWithMultifactorCode(code).catch((e) => {
+
+      // if multifactor attempt failed, prompt for code again
+      if(e instanceof Errors.MultifactorAuthAttemptFailedError){
+        console.error(e.message);
+        return this.showMultifactorPrompt(e.multifactor);
+      }
+
+      // rethrow unhandled error
+      throw e;
+
+    });
+
   }
 
   getConfig(region = this.region) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getSharedDataServiceUrl(region) + "/v1/config/" + region
     );
   }
 
   getContent() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getSharedDataServiceUrl(this.region) + "/content-service/v2/content",
       {
         headers: this.generateRequestHeaders(),
@@ -155,7 +264,7 @@ class API {
   }
 
   getEntitlements(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/store/v1/entitlements/${playerId}`,
       {
@@ -165,7 +274,7 @@ class API {
   }
 
   getMatch(matchId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/match-details/v1/matches/${matchId}`,
       {
@@ -175,7 +284,7 @@ class API {
   }
 
   getParty(partyId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPartyServiceUrl(this.region) + `/parties/v1/parties/${partyId}`,
       {
         headers: this.generateRequestHeaders(),
@@ -184,7 +293,7 @@ class API {
   }
 
   getPartyByPlayer(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPartyServiceUrl(this.region) + `/parties/v1/players/${playerId}`,
       {
         headers: this.generateRequestHeaders(),
@@ -193,7 +302,7 @@ class API {
   }
 
   getCompetitiveLeaderboard(seasonId, startIndex = 0, size = 510) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/mmr/v1/leaderboards/affinity/${this.region}/queue/competitive/season/${seasonId}?startIndex=${startIndex}&size=${size}`,
       {
@@ -203,7 +312,7 @@ class API {
   }
 
   getPlayerLoadout(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/personalization/v2/players/${playerId}/playerloadout`,
       {
@@ -213,7 +322,7 @@ class API {
   }
 
   getPlayerMMR(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) + `/mmr/v1/players/${playerId}`,
       {
         headers: this.generateRequestHeaders(),
@@ -222,7 +331,7 @@ class API {
   }
 
   getPlayerMatchHistory(playerId, startIndex = 0, endIndex = 10) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/match-history/v1/history/${playerId}?startIndex=${startIndex}&endIndex=${endIndex}`,
       {
@@ -232,7 +341,7 @@ class API {
   }
 
   getPlayerCompetitiveHistory(playerId, startIndex = 0, endIndex = 10) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/mmr/v1/players/${playerId}/competitiveupdates?startIndex=${startIndex}&endIndex=${endIndex}`,
       {
@@ -242,7 +351,7 @@ class API {
   }
 
   getPlayerAccountXp(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/account-xp/v1/players/${playerId}`,
       {
@@ -252,7 +361,7 @@ class API {
   }
 
   getPlayerWallet(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/store/v1/wallet/${playerId}`,
       {
@@ -262,7 +371,7 @@ class API {
   }
 
   getPlayerStoreFront(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/store/v2/storefront/${playerId}`,
       {
@@ -272,7 +381,7 @@ class API {
   }
 
   getPlayers(playerIds) {
-    return axios.put(
+    return this.axiosClient.put(
       this.getPlayerDataServiceUrl(this.region) + "/name-service/v2/players",
       playerIds,
       {
@@ -282,7 +391,7 @@ class API {
   }
 
   getSession(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPartyServiceUrl(this.region) + `/session/v1/sessions/${playerId}`,
       {
         headers: this.generateRequestHeaders(),
@@ -291,7 +400,7 @@ class API {
   }
 
   getContractDefinitions() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         "/contract-definitions/v2/definitions",
       {
@@ -301,7 +410,7 @@ class API {
   }
 
   getStoryContractDefinitions() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         "/contract-definitions/v2/definitions/story",
       {
@@ -311,7 +420,7 @@ class API {
   }
 
   getStoreOffers() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) + `/store/v1/offers`,
       {
         headers: this.generateRequestHeaders(),
@@ -320,7 +429,7 @@ class API {
   }
 
   getContract(playerId) {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/contracts/v1/contracts/${playerId}`,
       {
@@ -330,7 +439,7 @@ class API {
   }
 
   getItemUpgradesV2() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/contract-definitions/v2/item-upgrades`,
       {
@@ -340,7 +449,7 @@ class API {
   }
 
   getItemUpgradesV3() {
-    return axios.get(
+    return this.axiosClient.get(
       this.getPlayerDataServiceUrl(this.region) +
         `/contract-definitions/v3/item-upgrades`,
       {

@@ -1,5 +1,8 @@
 module.exports = {
 
+  // Errors
+  Errors: require('./src/errors'),
+
   // Internal Game APIs
   API: require("./src/api"),
   LocalRiotClientAPI: require("./src/LocalRiotClientAPI"),

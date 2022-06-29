@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/liamcottle/valorant.js#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "prompt": "^1.3.0"
   }
 }
