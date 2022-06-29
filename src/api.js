@@ -221,7 +221,7 @@ class API {
    * Note: This will only work from the command line.
    * @return {Promise<void>}
    */
-  async showMultifactorPrompt(multifactor) {
+  async showMultifactorAuthPrompt(multifactor) {
 
     // determine which email the mfa code was sent to
     const email = multifactor.email ?? 'unknown email';
@@ -238,7 +238,7 @@ class API {
       // if multifactor attempt failed, prompt for code again
       if(e instanceof Errors.MultifactorAuthAttemptFailedError){
         console.error(e.message);
-        return this.showMultifactorPrompt(e.multifactor);
+        return this.showMultifactorAuthPrompt(e.multifactor);
       }
 
       // rethrow unhandled error
