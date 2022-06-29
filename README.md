@@ -89,6 +89,81 @@ valorantApi.authorize('username', 'password').then(() => {
 });
 ````
 
+## Multifactor Auth
+
+If your account has MFA enabled a `MultifactorAuthRequiredError` will be thrown when you call `authorize`.  The API then expects you to provide it with the MFA code sent to you via email. You can do this by using `authWithMultifactorCode(xxxxxx)` or `showMultifactorAuthPrompt(error.multifactor)`
+
+### Building a bot?
+
+1. You need to obtain the multifactor auth code sent to you via email.
+2. You then need to call `valorantApi.authWithMultifactorCode(xxxxxx)` with your MFA code.
+3. If `authWithMultifactorCode` completes, you are logged in.
+4. If `authWithMultifactorCode` throws an exception, call `authWithMultifactorCode` again, with the correct code...
+
+### Using nodejs on the command line?
+
+1. For convenience, you can use `valorantApi.showMultifactorAuthPrompt(error.multifactor)`
+2. The command line will prompt you to enter your MFA code.
+3. If the code is correct, you are logged in.
+4. If the code is incorrect, the command line will prompt for the code again.
+
+### Multifactor Auth Example
+
+```js
+valorantApi.authorize('username', 'password').then(() => {
+    console.log("log in was successful without mfa");
+}).catch((error) => {
+
+    // handle multifactor auth
+    if(error instanceof Valorant.Errors.MultifactorAuthRequiredError){
+
+        // get multifactor info
+        const multifactor = error.multifactor;
+        // multifactor.email contains a redacted version of which email the code was sent to
+
+        // examples for handling mfa 
+        // handleMFA(multifactor);
+        // handleMFAWithPrompt(multifactor);
+
+    }
+    
+});
+
+function handleMFA(multifactor) {
+
+    // get your mfa code from your email
+    const code = 'xxxxxx';
+
+    // submit your mfa code
+    valorantApi.authWithMultifactorCode(code).then(() => {
+
+        // multifactor auth was successful
+        console.log("multifactor auth was successful");
+
+    }).catch((e) => {
+
+        // failed to complete multifactor auth
+        console.error(e);
+
+    });
+
+}
+
+function handleMFAWithPrompt(multifactor) {
+    valorantApi.showMultifactorAuthPrompt(multifactor).then(() => {
+
+        // multifactor auth was successful
+        console.log("multifactor auth was successful");
+
+    }).catch((e) => {
+
+        // failed to complete multifactor auth
+        console.error(e);
+
+    });
+}
+```
+
 ## View Competitive Rank and Elo
 
 If you're interested in getting information about your current rank and how long until you rank up, you could do something like this:
