@@ -1,7 +1,7 @@
 [AccountXP_GetPlayer]   GET https://pd.ap.a.pvp.net/account-xp/v1/players/${playerId}
 
 [Config_FetchConfig]    GET https://shared.ap.a.pvp.net/v1/config/ap
-[Content_FetchContent]  GET https://shared.ap.a.pvp.net/content-service/v2/content
+[Content_FetchContent]  GET https://shared.ap.a.pvp.net/content-service/v3/content
 
 [Contracts_Fetch]       GET  https://pd.ap.a.pvp.net/contracts/v1/contracts/${playerId}
 [Contracts_Refresh]     GET  https://pd.ap.a.pvp.net/contracts/v1/contracts/${playerId}
