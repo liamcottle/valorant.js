@@ -99,7 +99,7 @@ const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 function calculateElo(tier, progress) {
     if(tier >= 24) {
-        return 1800 + progress
+        return 2100 + progress
     } else {
         return ((tier * 100) - 300) + progress;
     }
