@@ -33,8 +33,9 @@ class API {
     this.user_id = null;
     this.access_token = null;
     this.entitlements_token = null;
-    this.user_agent = "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)";
-    this.client_version = "release-05.00-shipping-6-725355";
+    this.user_agent =
+      "RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)";
+    this.client_version = "release-05.06-shipping-6-765767";
     this.client_platform = {
       platformType: "PC",
       platformOS: "Windows",
@@ -104,7 +105,7 @@ class API {
       },
       {
         headers: {
-          "Cookie": cookie,
+          Cookie: cookie,
           "User-Agent": this.user_agent,
         },
         httpsAgent: agent,
@@ -112,7 +113,7 @@ class API {
     );
 
     // throw exception for auth_failure
-    if(access_tokens.data?.error === 'auth_failure'){
+    if (access_tokens.data?.error === "auth_failure") {
       throw new Error("auth_failure: username or password is incorrect.");
     }
 
