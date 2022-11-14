@@ -175,7 +175,7 @@ class LocalRiotClientAPI {
     
     removeFriend(puuid) {
         return this.axios.delete('/chat/v4/friends', {
-            'puuid': puuid,
+            data: { 'puuid': puuid }
         });
     }
 
