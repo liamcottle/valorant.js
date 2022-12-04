@@ -1,6 +1,6 @@
 {
   "name": "@liamcottle/valorant.js",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Unofficial NodeJS library for the VALORANT APIs used in game.",
   "main": "index.js",
   "repository": {
