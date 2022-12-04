@@ -26,24 +26,36 @@ npm install @liamcottle/valorant.js
 First, Create a new `Valorant.API` instance with the region associated with your player data.
 
 ```js
-const Valorant = require('@liamcottle/valorant.js');
+const Valorant = require("@liamcottle/valorant.js");
 const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 ```
 
+When creating a new `valorantApi` instance, you can also configure if you want the client_version and user_agent to be automatically updated. By default, these option is set to `true` by default.
+
+```js
+const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific, {
+  refreshVersions: true, //or false,
+});
+```
+
 > If your region is not available in the `Valorant.Regions` class, but you know your region code, you can pass it in directly:
-> ```
-> const valorantApi = new Valorant.API('NA');
+>
+> ```js
+> const valorantApi = new Valorant.API("NA");
 > ```
 
 Once you have a `Valorant.API` instance, you need to obtain an `access_token` and `entitlements_token` which are used for authorization when making requests to the Valorant APIs.
 
 ```js
-valorantApi.authorize('username', 'password').then(() => {
+valorantApi
+  .authorize("username", "password")
+  .then(() => {
     // auth was successful, go make some requests!
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error);
-});
-````
+  });
+```
 
 > Note that the `access_token` and `entitlements_token` do expire after some time. So you will need to authorize again once they expire.
 
@@ -51,82 +63,94 @@ Alternatively, if you already have your `access_token` and `entitlements_token` 
 
 ```js
 // use saved authorization details
-valorantApi.username = 'username';
-valorantApi.user_id = 'uuid',
-valorantApi.access_token = 'eyJ...';
-valorantApi.entitlements_token = 'eyJ...';
+valorantApi.username = "username";
+(valorantApi.user_id = "uuid"), (valorantApi.access_token = "eyJ...");
+valorantApi.entitlements_token = "eyJ...";
 ```
 
 ## Example
 
 ```js
-const Valorant = require('@liamcottle/valorant.js');
+const Valorant = require("@liamcottle/valorant.js");
 const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 // auth with valorant apis
-valorantApi.authorize('username', 'password').then(() => {
-
+valorantApi
+  .authorize("username", "password")
+  .then(() => {
     // log auth data
     console.log({
-        username: valorantApi.username,
-        user_id: valorantApi.user_id,
-        access_token: valorantApi.access_token,
-        entitlements_token: valorantApi.entitlements_token,
+      username: valorantApi.username,
+      user_id: valorantApi.user_id,
+      access_token: valorantApi.access_token,
+      entitlements_token: valorantApi.entitlements_token,
     });
 
     // log wallet balances
     valorantApi.getPlayerWallet(valorantApi.user_id).then((response) => {
-        console.log(response.data);
+      console.log(response.data);
     });
 
     // log competitive history
-    valorantApi.getPlayerCompetitiveHistory(valorantApi.user_id).then((response) => {
+    valorantApi
+      .getPlayerCompetitiveHistory(valorantApi.user_id)
+      .then((response) => {
         console.log(response.data);
-    });
-
-}).catch((error) => {
+      });
+  })
+  .catch((error) => {
     console.log(error);
-});
-````
+  });
+```
 
 ## View Competitive Rank and Elo
 
 If you're interested in getting information about your current rank and how long until you rank up, you could do something like this:
 
 ```js
-const Valorant = require('@liamcottle/valorant.js');
+const Valorant = require("@liamcottle/valorant.js");
 const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 function calculateElo(tier, progress) {
-    if(tier >= 24) {
-        return 2100 + progress
-    } else {
-        return ((tier * 100) - 300) + progress;
-    }
+  if (tier >= 24) {
+    return 2100 + progress;
+  } else {
+    return tier * 100 - 300 + progress;
+  }
 }
 
 // auth with valorant apis
-valorantApi.authorize('username', 'password').then(() => {
-
+valorantApi
+  .authorize("username", "password")
+  .then(() => {
     // get player mmr
     valorantApi.getPlayerMMR(valorantApi.user_id).then((response) => {
-
-        if(response.data.LatestCompetitiveUpdate){
-            const update = response.data.LatestCompetitiveUpdate;
-            var elo = calculateElo(update.TierAfterUpdate, update.RankedRatingAfterUpdate);
-            console.log(`Movement: ${update.CompetitiveMovement}`);
-            console.log(`Current Tier: ${update.TierAfterUpdate} (${Valorant.Tiers[update.TierAfterUpdate]})`);
-            console.log(`Current Tier Progress: ${update.RankedRatingAfterUpdate}/100`);
-            console.log(`Total Elo: ${elo}`);
-        } else {
-            console.log("No competitive update available. Have you played a competitive match yet?");
-        }
-
+      if (response.data.LatestCompetitiveUpdate) {
+        const update = response.data.LatestCompetitiveUpdate;
+        var elo = calculateElo(
+          update.TierAfterUpdate,
+          update.RankedRatingAfterUpdate
+        );
+        console.log(`Movement: ${update.CompetitiveMovement}`);
+        console.log(
+          `Current Tier: ${update.TierAfterUpdate} (${
+            Valorant.Tiers[update.TierAfterUpdate]
+          })`
+        );
+        console.log(
+          `Current Tier Progress: ${update.RankedRatingAfterUpdate}/100`
+        );
+        console.log(`Total Elo: ${elo}`);
+      } else {
+        console.log(
+          "No competitive update available. Have you played a competitive match yet?"
+        );
+      }
     });
-
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error);
-});
+  });
 ```
 
 Which will output something like these:
@@ -150,23 +174,24 @@ Total Elo: 942
 If you're interested in getting the current competitive leaderboards shown in game, you can request them like so:
 
 ```js
-const Valorant = require('@liamcottle/valorant.js');
+const Valorant = require("@liamcottle/valorant.js");
 const valorantApi = new Valorant.API(Valorant.Regions.AsiaPacific);
 
 // auth with valorant apis
-valorantApi.authorize('username', 'password').then(() => {
-    
+valorantApi
+  .authorize("username", "password")
+  .then(() => {
     // episode 2, act 1
-    var seasonId = '97b6e739-44cc-ffa7-49ad-398ba502ceb0';
-    
+    var seasonId = "97b6e739-44cc-ffa7-49ad-398ba502ceb0";
+
     // get competitive leaderboard
     valorantApi.getCompetitiveLeaderboard(seasonId).then((response) => {
-        console.log(response.data);
+      console.log(response.data);
     });
-
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error);
-});
+  });
 ```
 
 Which will output something like this: (I have blanked out the player IDs)
