@@ -624,6 +624,17 @@ class ContentAPI {
     });
     return data.data.data;
   }
+
+  //Version Endpoint
+  /**
+   * Returns the current version of the VALORANT Build
+   * @returns {Promise<Version>} Version Object
+   */
+
+  async getVersion() {
+    const data = await axios.get(`${this.baseURL}version`);
+    return data.data.data;
+  }
 }
 
 module.exports = ContentAPI;

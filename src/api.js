@@ -2,6 +2,7 @@
 
 const axios = require("axios").default;
 const { Agent } = require("https");
+const ContentAPI = require("./ContentAPI");
 
 const regions = require("./regions");
 
@@ -27,8 +28,9 @@ const parseTokensFromUrl = (uri) => {
 };
 
 class API {
-  constructor(region = regions.AsiaPacific) {
+  constructor(region = regions.AsiaPacific, { refreshVersion = true }) {
     this.region = region;
+    this.contentAPI = new ContentAPI();
     this.username = null;
     this.user_id = null;
     this.access_token = null;
@@ -42,6 +44,19 @@ class API {
       platformOSVersion: "10.0.19042.1.256.64bit",
       platformChipset: "Unknown",
     };
+    if (refreshVersion) {
+      this.refreshVersion();
+    }
+  }
+
+  async refreshVersion() {
+    setInterval(async () => {
+      const version = await this.contentAPI.getVersion();
+      if (version.riotClientVersion !== this.client_version) {
+        this.client_version = version.riotClientVersion;
+        this.user_agent = `RiotClient/${version.riotClientBuild} rso-auth (Windows; 10;;Professional, x64)`;
+      }
+    }, 1000 * 60 * 60 * 24);
   }
 
   getPlayerDataServiceUrl(region) {
